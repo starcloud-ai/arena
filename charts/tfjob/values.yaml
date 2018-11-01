@@ -59,3 +59,8 @@ enableRDMA: false
 # hostLogPath: /training_logs/112345_logs
 
 # nvidiaPath: /usr/local/nvidia-docker/nvidia_driver/384.81
+
+tolerations:
+  - key: nvidia.com/gpu
+    operator: Exists
+    effect: NoSchedule
