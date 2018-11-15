@@ -119,6 +119,9 @@ func NewSubmitTFJobCommand() *cobra.Command {
 	command.Flags().MarkDeprecated("psMemory", "please use --ps-memory instead")
 	command.Flags().StringVar(&submitArgs.PSMemory, "ps-memory", "", "the memory resource to use for the parameter servers, like 1Gi.")
 	command.Flags().StringArrayVarP(&psSelectors,"ps-selector","",[]string{},`assigning jobs with "PS" role to some k8s particular nodes(this option would cover --selector), usage: "--ps-selector=key=value"`)
+
+	command.Flags().StringVar(&submitArgs.RpcLayer, "rpcLayer", "", "the rpc layer to use in TFConfig, like grpc.")
+
 	// How to clean up Task
 	command.Flags().StringVar(&submitArgs.CleanPodPolicy, "cleanTaskPolicy", "Running", "How to clean tasks after Training is done, only support Running, None.")
 	command.Flags().MarkDeprecated("cleanTaskPolicy", "please use --clean-task-policy instead")
@@ -158,6 +161,9 @@ func NewSubmitTFJobCommand() *cobra.Command {
 	command.Flags().StringArrayVarP(&chiefSelectors,"chief-selector","",[]string{},`assigning jobs with "Chief" role to some k8s particular nodes(this option would cover --selector), usage: "--chief-selector=key=value"`)
 	command.Flags().StringArrayVarP(&evaluatorSelectors,"evaluator-selector","",[]string{},`assigning jobs with "Evaluator" role to some k8s particular nodes(this option would cover --selector), usage: "--evaluator-selector=key=value"`)
 
+	// CodeMeter Server
+	command.Flags().StringVar(&submitArgs.CodeMeterServer, "codeMeterServer", "", "ip address of codemeter server")
+
 	// command.Flags().BoolVarP(&showDetails, "details", "d", false, "Display details")
 	return command
 }
@@ -178,7 +184,7 @@ type submitTFJobArgs struct {
 	PSMemory       string `yaml:"psMemory"`       // --psMemory
 	CleanPodPolicy string `yaml:"cleanPodPolicy"` // --cleanTaskPolicy
 	// For esitmator, it reuses workerImage
-	UseChief        bool   `yaml:",omitempty"` // --chief
+	UseChief        bool   `yaml:",omitempty"`    // --chief
 	ChiefCount      int    `yaml:"chief"`
 	UseEvaluator    bool   `yaml:",omitempty"`      // --evaluator
 	ChiefPort       int    `yaml:"chiefPort"`       // --chiefPort
@@ -189,6 +195,10 @@ type submitTFJobArgs struct {
 	//EvaluatorNodeSelectors map[string]string `yaml:"evaluatorNodeSelectors"` // --evaluator-selector
 	EvaluatorMemory string `yaml:"evaluatorMemory"` // --evaluatorMemory
 	EvaluatorCount  int    `yaml:"evaluator"`
+	RpcLayer        string `yaml:"rpcLayer"`        // --rpcLayer
+
+	// For wibu codemeter server
+	CodeMeterServer string `yaml:"codeMeterServer"` // -- codeMeterServer
 
 	// determine if it has gang scheduler
 	HasGangScheduler bool `yaml:"hasGangScheduler"`

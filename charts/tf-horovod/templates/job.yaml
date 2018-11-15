@@ -183,7 +183,9 @@ spec:
             {{- if .Values.memory }}
             memory: {{ .Values.memory | quote }}
             {{- end}}
-            {{- if .Values.enableRDMA }}
+            {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+            rdma/vhca: "1"
+            {{- else if .Values.enableRDMA }}
             rdma/hca: "1"
             {{- end}}
           limits:
@@ -200,7 +202,9 @@ spec:
             {{- if .Values.memory }}
             memory: {{ .Values.memory | quote }}
             {{- end}}
-            {{- if .Values.enableRDMA }}
+            {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+            rdma/vhca: "1"
+            {{- else if .Values.enableRDMA }}
             rdma/hca: "1"
             {{- end}}
       initContainers:

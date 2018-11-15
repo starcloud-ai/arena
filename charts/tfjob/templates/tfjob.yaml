@@ -22,6 +22,9 @@ spec:
   cleanPodPolicy: Running
 {{- end }}
 {{- end }}
+{{- if .Values.rpcLayer }}
+  tfRpcLayer: {{ .Values.rpcLayer }}
+{{- end }}
   tfReplicaSpecs:
 {{- if .Values.ps }}
     PS:
@@ -35,10 +38,13 @@ spec:
             release: {{ .Release.Name }}
             heritage: {{ .Release.Service }}
             createdBy: "TFJob"
-        annotations:
-        {{- range $key, $value := .Values.annotations }}
-          {{ $key }}: {{ $value | quote }}
-        {{- end }}
+          annotations:
+          {{- range $key, $value := .Values.annotations }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
+          {{- range $key, $value := .Values.psAnnotations }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
         spec:
           {{- if ne (len $tfNodeSelectors.PS) 0 }}
           nodeSelector:
@@ -67,8 +73,22 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
+          {{- end }}
           {{- if .Values.binpack }}
           affinity:
+            {{- if .Values.nodeAffinity }}
+            nodeAffinity:
+{{ toYaml .Values.nodeAffinity | indent 14 }}
+            {{- end }}
             podAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
               - weight: 100
@@ -93,15 +113,15 @@ spec:
                         operator: In
                         values:
                           - worker
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - ps      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - ps
           {{- end }}
           {{- if .Values.useHostNetwork }}
           {{- if not .Values.useENI }}
@@ -226,7 +246,9 @@ spec:
                   {{- if .Values.psMemory }}
                   memory: {{ .Values.psMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
                 limits:
@@ -236,7 +258,9 @@ spec:
                   {{- if .Values.psMemory }}
                   memory: {{ .Values.psMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
               {{- if .Values.psPort }}
@@ -245,6 +269,7 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
                 - {{ .Values.command }}
@@ -324,6 +349,16 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
+          {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
           affinity:
@@ -351,15 +386,15 @@ spec:
                         operator: In
                         values:
                           - ps
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - worker      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - worker
           {{- end }}
           {{- end }}
           {{- if .Values.ps }}
@@ -503,7 +538,9 @@ spec:
                   {{- if .Values.workerMemory }}
                   memory: {{ .Values.workerMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
                 limits:
@@ -520,7 +557,9 @@ spec:
                   {{- if .Values.workerMemory }}
                   memory: {{ .Values.workerMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
               {{- if .Values.workerPort }}
@@ -529,6 +568,7 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
                 - {{ .Values.command }}
@@ -618,6 +658,16 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
+          {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
           affinity:
@@ -645,15 +695,15 @@ spec:
                         operator: In
                         values:
                           - ps
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - worker      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - worker
           {{- end }}
           {{- end }}
           {{- if .Values.ps }}
@@ -797,7 +847,9 @@ spec:
                   {{- if .Values.chiefMemory }}
                   memory: {{ .Values.chiefMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
                 limits:
@@ -814,7 +866,9 @@ spec:
                   {{- if .Values.chiefMemory }}
                   memory: {{ .Values.chiefMemory | quote }}
                   {{- end}}
-                  {{- if .Values.enableRDMA }}
+                  {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
+                  rdma/vhca: "1"
+                  {{- else if .Values.enableRDMA }}
                   rdma/hca: "1"
                   {{- end}}
               {{- if .Values.chiefPort }}
@@ -823,6 +877,7 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
                 - {{ .Values.command }}
@@ -908,6 +963,16 @@ spec:
           schedulerName: {{ .Values.schedulerName }}
           {{- end }}
           {{- end }}
+          {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}
@@ -1060,6 +1125,7 @@ spec:
                   memory: {{ .Values.evaluatorMemory | quote }}
                   {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
                 - {{ .Values.command }}

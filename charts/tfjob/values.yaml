@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 useHostNetwork: false
-useHostPID: true
-useHostIPC: true
+useHostPID: false
+useHostIPC: false
 gpuCount: 0 # user define
 privileged: false
 
@@ -12,7 +12,8 @@ chief: 0
 # Possible value: Chief/Master
 chiefName: Chief
 # chiefPort: 2221
-chiefAnnotations: {}
+chiefAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 # chiefAnnotations:
 
 workers: 1
@@ -20,6 +21,8 @@ workerImage: kubeflow/tf-dist-mnist-test:1.0
 # workerCpu: 1
 # workerMemory: 1 Gi
 # workPort: 2222
+workerAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 ps: 0
 psImage: kubeflow/tf-dist-mnist-test:1.0
@@ -28,9 +31,13 @@ psImage: kubeflow/tf-dist-mnist-test:1.0
 # psPort: 2223
 annotations: {}
 
+psAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
+
 evaluator: 0
 evaluatorImage: kubeflow/tf-dist-mnist-test:1.0
-evaluatorAnnotations: {}
+evaluatorAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 # rsync image
 rsyncImage: registry.cn-zhangjiakou.aliyuncs.com/tensorflow-samples/rsync
@@ -55,7 +62,7 @@ tensorboardResources: {}
 trainingLogdir: /output/training_logs
 
 # disable by default 
-binpack: false
+binpack: true
 
 # enable gang scheduler
 enableGangScheduler: false
@@ -63,6 +70,10 @@ schedulerName: kube-batchd
 
 # enable RDMA support
 enableRDMA: false
+RDMAType: vhca
+
+
+
 
 ingress: false
 
@@ -77,3 +88,16 @@ enablePodSecurityContext: false
 
 # enable priorityClassName
 priorityClassName: ""
+
+tolerations:
+- key: nvidia.com/gpu
+  operator: Exists
+  effect: NoSchedule
+nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: nvidia.com/gpu
+        operator: In
+        values:
+        - ""

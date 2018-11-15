@@ -47,10 +47,12 @@ syncImage: registry.cn-zhangjiakou.aliyuncs.com/tensorflow-samples/rsync
 
 # enable RDMA support
 enableRDMA: false
+RDMAType: vhca
 
 retry: 0
 
-annotations: {}
+annotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 # annotations:
 
