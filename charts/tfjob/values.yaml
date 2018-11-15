@@ -12,7 +12,8 @@ chief: 0
 # Possible value: Chief/Master
 chiefName: Chief
 # chiefPort: 2221
-chiefAnnotations: {}
+chiefAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 # chiefAnnotations:
 
 workers: 1
@@ -20,17 +21,21 @@ workerImage: kubeflow/tf-dist-mnist-test:1.0
 # workerCpu: 1
 # workerMemory: 1 Gi
 # workPort: 2222
+workerAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 ps: 0
 psImage: kubeflow/tf-dist-mnist-test:1.0
 # psCpu: 1
 # psMemory: 1 Gi
 # psPort: 2223
-annotations: {}
+annotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 evaluator: 0
 evaluatorImage: kubeflow/tf-dist-mnist-test:1.0
-evaluatorAnnotations: {}
+evaluatorAnnotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 # rsync image
 rsyncImage: registry.cn-zhangjiakou.aliyuncs.com/tensorflow-samples/rsync
@@ -55,6 +60,10 @@ schedulerName: kube-batchd
 
 # enable RDMA support
 enableRDMA: false
+RDMAType: vhca
+
+
+
 
 # hostLogPath: /training_logs/112345_logs
 
