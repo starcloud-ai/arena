@@ -46,6 +46,10 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
           {{- if .Values.binpack }}
           affinity:
             podAffinity:
@@ -257,6 +261,10 @@ spec:
           schedulerName: {{ .Values.schedulerName }}
           {{- end }}
           {{- end }}
+          {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
@@ -507,6 +515,10 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
           affinity:
@@ -752,6 +764,10 @@ spec:
           schedulerName: {{ .Values.schedulerName }}
           {{- end }}
           {{- end }}
+          {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}
