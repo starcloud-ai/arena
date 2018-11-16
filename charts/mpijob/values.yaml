@@ -23,5 +23,10 @@ tensorboardServiceType: NodePort
 launcherOnMaster: true
 retry: 0
 
-annotations: {}
+annotations:
+  k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 # annotations:
+
+# enable RDMA support
+enableRDMA: false
+RDMAType: vhca
