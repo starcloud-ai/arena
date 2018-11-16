@@ -142,7 +142,7 @@ spec:
             {{- if .Values.memory }}
             memory: {{ .Values.memory | quote }}
             {{- end }}
-            {{- if .Values.enableRDMA and eq "vhca" .Values.RDMAType }}
+            {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
             rdma/vhca: "1"
             {{- else if .Values.enableRDMA }}
             rdma/hca: "1"
@@ -161,7 +161,7 @@ spec:
             {{- if .Values.memory }}
             memory: {{ .Values.memory | quote }}
             {{- end }}
-            {{- if .Values.enableRDMA and eq "vhca" .Values.RDMAType }}
+            {{- if (.Values.enableRDMA) and eq "vhca" .Values.RDMAType }}
             rdma/vhca: "1"
             {{- else if .Values.enableRDMA }}
             rdma/hca: "1"
