@@ -47,6 +47,11 @@ cd arena
 make
 ```
 
+Or you can build the binary by docker
+```
+docker run --rm -it -v "$PWD":/go/src/github.com/kubeflow/arena -w /go/src/github.com/kubeflow/arena golang:1.10-stretch make
+```
+
 `arena` binary is located in directory `arena/bin`. You may want add the directory to `$PATH`.
 
 ## CLI Document
