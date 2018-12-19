@@ -29,3 +29,17 @@
 
 * Make Hostnetwork as false by default
 
+
+### 0.8.0
+
+* Fix MPI Job backofflimit typo
+
+
+### 0.9.0
+
+* Fix MPI Job Tensorboard issue when using `--data`
+
+
+### 0.10.0
+
+* Fix hostnetwork issue which is introduced by ENI

@@ -87,8 +87,10 @@ spec:
                           - ps      
           {{- end }}
           {{- if .Values.useHostNetwork }}
+          {{- if not .Values.useENI }}
           hostNetwork: {{ .Values.useHostNetwork }}
           dnsPolicy: ClusterFirstWithHostNet
+          {{- end }}
           {{- end }}
           {{- if .Values.useHostPID }}
           hostPID: {{ .Values.useHostPID }}
@@ -306,8 +308,10 @@ spec:
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}
+          {{- if not .Values.useENI }}
           hostNetwork: {{ .Values.useHostNetwork }}
           dnsPolicy: ClusterFirstWithHostNet
+          {{- end }}
           {{- end }}
           {{- end }}
           {{- if .Values.useHostPID }}
@@ -559,8 +563,10 @@ spec:
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}
+          {{- if not .Values.useENI }}
           hostNetwork: {{ .Values.useHostNetwork }}
           dnsPolicy: ClusterFirstWithHostNet
+          {{- end }}
           {{- end }}
           {{- end }}
           {{- if .Values.useHostPID }}
@@ -771,8 +777,10 @@ spec:
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}
+          {{- if not .Values.useENI }}
           hostNetwork: {{ .Values.useHostNetwork }}
           dnsPolicy: ClusterFirstWithHostNet
+          {{- end }}
           {{- end }}
           {{- end }}
           {{- if .Values.useHostPID }}

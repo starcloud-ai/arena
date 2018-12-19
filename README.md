@@ -12,6 +12,7 @@ Meanwhile, the end users require GPU resource and node management. Arena also pr
 
 In one word, Arena's goal is to make the data scientists feel like to work on a single machine but with the Power of GPU clusters indeed.
 
+For the Chinese version, please refer to [中文文档](README_cn.md)
 
 ## Setup
 
@@ -27,6 +28,9 @@ Arena is a command-line interface to run and monitor the machine learning traini
 - [4. Run a distributed training Job with external data](docs/userguide/4-tfjob-distributed-data.md)
 - [5. Run a distributed training Job based on MPI](docs/userguide/5-mpijob-distributed.md)
 - [6. Run a distributed TensorFlow training job with gang scheduler](docs/userguide/6-tfjob-gangschd.md)
+- [7. Run TensorFlow Serving](docs/userguide/7-tf-serving.md)
+- [8. Run TensorFlow Estimator](docs/userguide/8-tfjob-estimator.md)
+- [9. Monitor GPUs of the training job ](docs/userguide/9-top-job-gpu-metric.md)
 
 ## Demo
 
@@ -52,7 +56,7 @@ Or you can build the binary by docker
 docker run --rm -it -v "$PWD":/go/src/github.com/kubeflow/arena -w /go/src/github.com/kubeflow/arena golang:1.10-stretch make
 ```
 
-`arena` binary is located in directory `arena/bin`. You may want add the directory to `$PATH`.
+`arena` binary is located in directory `arena/bin`. You may want to add the directory to `$PATH`.
 
 ## CLI Document
 
