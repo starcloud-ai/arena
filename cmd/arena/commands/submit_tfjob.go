@@ -82,6 +82,7 @@ func NewSubmitTFJobCommand() *cobra.Command {
 	command.Flags().StringVar(&submitArgs.WorkerMemory, "workerMemory", "", "the memory resource to use for the worker, like 1Gi.")
 	command.Flags().StringVar(&submitArgs.PSCpu, "psCpu", "", "the cpu resource to use for the parameter servers, like 1 for 1 core.")
 	command.Flags().StringVar(&submitArgs.PSMemory, "psMemory", "", "the memory resource to use for the parameter servers, like 1Gi.")
+	command.Flags().StringVar(&submitArgs.RpcLayer, "rpcLayer", "", "the rpc layer to use in TFConfig, like grpc.")
 	// How to clean up Task
 	command.Flags().StringVar(&submitArgs.CleanPodPolicy, "cleanTaskPolicy", "Running", "How to clean tasks after Training is done, only support Running, None.")
 
@@ -125,6 +126,7 @@ type submitTFJobArgs struct {
 	EvaluatorCpu    string `yaml:"evaluatorCPU"`    // --evaluatorCpu
 	EvaluatorMemory string `yaml:"evaluatorMemory"` // --evaluatorMemory
 	EvaluatorCount  int    `yaml:"evaluator"`
+	RpcLayer        string `yaml:"rpcLayer"`        // --rpcLayer
 
 	// determine if it has gang scheduler
 	HasGangScheduler bool `yaml:"hasGangScheduler"`
