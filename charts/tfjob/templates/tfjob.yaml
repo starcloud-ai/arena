@@ -21,6 +21,9 @@ spec:
   cleanPodPolicy: Running
 {{- end }}
 {{- end }}
+{{- if .Values.rpcLayer }}
+  tfRpcLayer: {{ .Values.rpcLayer }}
+{{- end }}
   tfReplicaSpecs:
 {{- if .Values.ps }}
     PS:
