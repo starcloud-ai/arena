@@ -529,6 +529,10 @@ spec:
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
           affinity:
+            {{- if .Values.nodeAffinity }}
+            nodeAffinity:
+{{ toYaml .Values.nodeAffinity | indent 14 }}
+            {{- end }}
             podAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
               - weight: 100

@@ -70,6 +70,14 @@ RDMAType: vhca
 # nvidiaPath: /usr/local/nvidia-docker/nvidia_driver/384.81
 
 tolerations:
-  - key: nvidia.com/gpu
-    operator: Exists
-    effect: NoSchedule
+- key: nvidia.com/gpu
+  operator: Exists
+  effect: NoSchedule
+nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: nvidia.com/gpu
+        operator: In
+        values:
+        - ""
