@@ -57,7 +57,7 @@ spec:
           affinity:
             {{- if .Values.nodeAffinity }}
             nodeAffinity:
-            {{ toYaml .Values.nodeAffinity | indent 14 }}
+{{ toYaml .Values.nodeAffinity | indent 14 }}
             {{- end }}
             podAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:

@@ -52,7 +52,7 @@ tensorboardServiceType: NodePort
 trainingLogdir: /output/training_logs
 
 # disable by default 
-binpack: false
+binpack: true
 
 # enable gang scheduler
 enableGangScheduler: false
