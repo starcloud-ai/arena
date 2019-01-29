@@ -37,13 +37,13 @@ spec:
             release: {{ .Release.Name }}
             heritage: {{ .Release.Service }}
             createdBy: "TFJob"
-        annotations:
-        {{- range $key, $value := .Values.annotations }}
-          {{ $key }}: {{ $value | quote }}
-        {{- end }}
-        {{- range $key, $value := .Values.psAnnotations }}
-          {{ $key }}: {{ $value | quote }}
-        {{- end }}
+          annotations:
+          {{- range $key, $value := .Values.annotations }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
+          {{- range $key, $value := .Values.psAnnotations }}
+            {{ $key }}: {{ $value | quote }}
+          {{- end }}
         spec:
           {{- if .Values.ps }}
           {{- if .Values.hasGangScheduler }}
@@ -217,6 +217,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
+                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -462,6 +463,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
+                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -717,6 +719,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
+                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -911,6 +914,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
+                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
