@@ -215,9 +215,9 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
-                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -461,9 +461,9 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
-                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -717,9 +717,9 @@ spec:
                   name: tfjob-port
               {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
-                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
@@ -912,9 +912,9 @@ spec:
                   memory: {{ .Values.evaluatorMemory | quote }}
                   {{- end}}
               command:
+                - "/entrypoint.sh"
                 - "sh"
                 - "-c"
-                - "/entrypoint.sh"
                 - {{ .Values.command }}
               env:        
               {{- range $key, $value := .Values.envs }}
