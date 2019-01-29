@@ -29,7 +29,9 @@ psImage: kubeflow/tf-dist-mnist-test:1.0
 # psCpu: 1
 # psMemory: 1 Gi
 # psPort: 2223
-annotations:
+annotations: {}
+
+psAnnotations:
   k8s.v1.cni.cncf.io/networks: '[{ "name": "sriov-conf" }]'
 
 evaluator: 0

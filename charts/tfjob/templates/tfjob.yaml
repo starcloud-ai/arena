@@ -41,6 +41,9 @@ spec:
         {{- range $key, $value := .Values.annotations }}
           {{ $key }}: {{ $value | quote }}
         {{- end }}
+        {{- range $key, $value := .Values.psAnnotations }}
+          {{ $key }}: {{ $value | quote }}
+        {{- end }}
         spec:
           {{- if .Values.ps }}
           {{- if .Values.hasGangScheduler }}
