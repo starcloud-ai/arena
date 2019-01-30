@@ -86,15 +86,15 @@ spec:
                         operator: In
                         values:
                           - worker
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - ps      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - ps
           {{- end }}
           {{- if .Values.useHostNetwork }}
           {{- if not .Values.useENI }}
@@ -306,15 +306,15 @@ spec:
                         operator: In
                         values:
                           - ps
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - worker      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - worker
           {{- end }}
           {{- end }}
           {{- if .Values.ps }}
@@ -562,15 +562,15 @@ spec:
                         operator: In
                         values:
                           - ps
-              - weight: 30
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: tf-replica-type
-                        operator: In
-                        values:
-                          - worker      
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: tf-replica-type
+                      operator: In
+                      values:
+                        - worker
           {{- end }}
           {{- end }}
           {{- if .Values.ps }}
