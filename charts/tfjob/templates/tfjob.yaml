@@ -286,10 +286,10 @@ spec:
 {{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
           {{- if .Values.codeMeterServer }}
-            hostAliases:
-            - ip: {{ .Values.codeMeterServer }}
-              hostnames:
-              - "codemeter.server"
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
