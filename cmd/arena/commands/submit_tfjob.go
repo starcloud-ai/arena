@@ -100,6 +100,9 @@ func NewSubmitTFJobCommand() *cobra.Command {
 	command.Flags().StringVar(&submitArgs.EvaluatorMemory, "evaluatorMemory", "", "the memory resource to use for the evaluator, like 1Gi.")
 	command.Flags().IntVar(&submitArgs.ChiefPort, "chiefPort", 0, "the port of the chief.")
 
+	// CodeMeter Server
+	command.Flags().StringVar(&submitArgs.CodeMeterServer, "codeMeterServer", "", "ip address of codemeter server")
+
 	// command.Flags().BoolVarP(&showDetails, "details", "d", false, "Display details")
 	return command
 }
@@ -117,7 +120,7 @@ type submitTFJobArgs struct {
 	PSMemory       string `yaml:"psMemory"`       // --psMemory
 	CleanPodPolicy string `yaml:"cleanPodPolicy"` // --cleanTaskPolicy
 	// For esitmator, it reuses workerImage
-	UseChief        bool   `yaml:",omitempty"` // --chief
+	UseChief        bool   `yaml:",omitempty"`    // --chief
 	ChiefCount      int    `yaml:"chief"`
 	UseEvaluator    bool   `yaml:",omitempty"`      // --evaluator
 	ChiefPort       int    `yaml:"chiefPort"`       // --chiefPort
@@ -127,6 +130,9 @@ type submitTFJobArgs struct {
 	EvaluatorMemory string `yaml:"evaluatorMemory"` // --evaluatorMemory
 	EvaluatorCount  int    `yaml:"evaluator"`
 	RpcLayer        string `yaml:"rpcLayer"`        // --rpcLayer
+
+	// For wibu codemeter server
+	CodeMeterServer string `yaml:"codeMeterServer"` // -- codeMeterServer
 
 	// determine if it has gang scheduler
 	HasGangScheduler bool `yaml:"hasGangScheduler"`

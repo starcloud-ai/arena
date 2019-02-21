@@ -56,6 +56,12 @@ spec:
           tolerations:
 {{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
+          {{- end }}
           {{- if .Values.binpack }}
           affinity:
             {{- if .Values.nodeAffinity }}
@@ -278,6 +284,12 @@ spec:
           {{- if .Values.tolerations }}
           tolerations:
 {{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
@@ -535,6 +547,12 @@ spec:
           tolerations:
 {{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
+          {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.binpack }}
           affinity:
@@ -787,6 +805,12 @@ spec:
           {{- if .Values.tolerations }}
           tolerations:
 {{ toYaml .Values.tolerations | indent 14 }}
+          {{- end }}
+          {{- if .Values.codeMeterServer }}
+          hostAliases:
+          - ip: {{ .Values.codeMeterServer }}
+            hostnames:
+            - "codemeter.server"
           {{- end }}
           {{- if .Values.ps }}
           {{- if .Values.useHostNetwork }}

@@ -1,3 +1,4 @@
+.idea/
 bin/
 **/*.tgz
 **/.DS_Store
