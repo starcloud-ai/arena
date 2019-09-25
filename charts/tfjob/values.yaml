@@ -89,10 +89,6 @@ enablePodSecurityContext: false
 # enable priorityClassName
 priorityClassName: ""
 
-tolerations:
-- key: nvidia.com/gpu
-  operator: Exists
-  effect: NoSchedule
 nodeAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     nodeSelectorTerms:

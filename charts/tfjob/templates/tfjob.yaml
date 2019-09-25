@@ -73,10 +73,6 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
-          {{- if .Values.tolerations }}
-          tolerations:
-{{ toYaml .Values.tolerations | indent 14 }}
-          {{- end }}
           {{- if .Values.codeMeterServer }}
           hostAliases:
           - ip: {{ .Values.codeMeterServer }}
@@ -348,10 +344,6 @@ spec:
           schedulerName: {{ .Values.schedulerName }}
           {{- end }}
           {{- end }}
-          {{- end }}
-          {{- if .Values.tolerations }}
-          tolerations:
-{{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
           {{- if .Values.codeMeterServer }}
           hostAliases:
@@ -658,10 +650,6 @@ spec:
           {{- end }}
           {{- end }}
           {{- end }}
-          {{- if .Values.tolerations }}
-          tolerations:
-{{ toYaml .Values.tolerations | indent 14 }}
-          {{- end }}
           {{- if .Values.codeMeterServer }}
           hostAliases:
           - ip: {{ .Values.codeMeterServer }}
@@ -963,10 +951,6 @@ spec:
           schedulerName: {{ .Values.schedulerName }}
           {{- end }}
           {{- end }}
-          {{- end }}
-          {{- if .Values.tolerations }}
-          tolerations:
-{{ toYaml .Values.tolerations | indent 14 }}
           {{- end }}
           {{- if .Values.codeMeterServer }}
           hostAliases:
